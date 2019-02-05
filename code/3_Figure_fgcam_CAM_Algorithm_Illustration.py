@@ -46,15 +46,14 @@ def generate_cam(conv, weights, class_idx, size_upsample = (299,299)):
     #Multiply matrix with weights for class
     cam = weights[class_idx].dot(feature_input)
     
-    #Sample the result up to 299x299 image size
-    #size_upsample = (299,299)
+    #Normalize CAM values
     cam = cam.reshape(h, w)
     min_cam = np.min(cam)
     max_cam = np.max(cam)
-    #min_cam = -10 #lowest value for image with only trees
-    #max_cam = 25 #highest value for image with cafo
     cam = cam - min_cam
     cam_img = cam / max_cam
+
+    #Create heatmap
     cam_img = np.uint8(255 * cam_img)
     final_img = cv2.resize(cam_img, size_upsample)
 
