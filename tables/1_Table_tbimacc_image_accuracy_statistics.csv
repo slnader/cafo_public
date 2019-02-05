@@ -1,0 +1,5 @@
+model,sample,auc,avg_precision,n_1,n_0
+Poultry,All images,0.972,0.917,833,4871
+Poultry,Non-Occluded,0.998,0.98,262,4871
+Swine,All images,0.986,0.923,399,4871
+Swine,Non-Occluded,1.0,0.991,124,4871

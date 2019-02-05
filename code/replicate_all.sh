@@ -1,0 +1,8 @@
+#!/bin/bash
+
+python 1_Figure_fgocclusion_Image_Occlusion_Examples.py
+python 1_Table_tbimacc_Image_Accuracy_Statistics.py
+python 2_Figure_fgroc_ROC_PR_Curves.py
+python 3_Figure_fgcam_CAM_Algorithm_Illustration.py
+RScript 4_Figure_fgmap_Manual_Modeled_Poultry_Locations.R
+RScript 5_Figure_fgplant_New_CAFO_Growth_Density.R

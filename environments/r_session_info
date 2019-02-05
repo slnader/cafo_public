@@ -1,0 +1,10 @@
+R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS  10.14
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] getPass_0.2-2      ggmap_2.7.900      ggplot2_3.1.0      showtext_0.5-1     showtextdb_2.0    
+ [6] sysfonts_0.8       scales_1.0.0       RColorBrewer_1.1-2 rgdal_1.2-18       sp_1.2-7   
