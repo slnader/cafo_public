@@ -1,6 +1,9 @@
 ## Replication code for "Deep Learning to Map Concentrated Animal Feeding Operations" (*Nature Sustainability*, forthcoming)
 The code and data in this repository will replicate the tables and figures in the main body of "Deep Learning to Map Concentrated Animal Feeding Operations." The replication code is designed to work on macOS.
 
+### Attribution
+When using these models and/or the underlying data, please cite the paper above with mention that the location data used to train the models was developed by the [Environmental Working Group](https://www.ewg.org/) and [Waterkeeper Alliance](https://waterkeeper.org/), with validation by the research team at Stanford.
+
 ### Requirements
 1. The python code requires the dependencies in the cafo_environment.yml file. To replicate this environment, install the [open-source anaconda distribution](https://www.anaconda.com/distribution/), navigate to the top level of the replication directory, and run 
 ```
