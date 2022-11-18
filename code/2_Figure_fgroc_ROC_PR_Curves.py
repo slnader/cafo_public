@@ -3,21 +3,19 @@
 # ==============================================================================
 
 #Required modules (condatensorflow environment)
-import os
-import psycopg2
-import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
-import getpass
+import os
+import pandas as pd
 import random
 from sklearn import metrics as skmetrics
 from sklearn.utils.class_weight import compute_sample_weight
-import matplotlib.pyplot as plt
 
 def main():
 
-    # ==============================================================================
+    # ==========================================================================
     #0. Read in image accuracy data (prepared in build_image_level_data.py)
-    # ==============================================================================
+    # ==========================================================================
 
     #Data directory
     data_dir = '../data/csv'
@@ -26,7 +24,8 @@ def main():
     fig_dir = '../figures'
 
     #Read in image accuracy data
-    accuracy_df = pd.read_csv(os.path.join(data_dir, "test_image_accuracy_data.csv"))
+    accuracy_df = pd.read_csv(os.path.join(data_dir,
+    "test_image_accuracy_data.csv"))
 
     #Final poultry model
     poultry_model_version = 'final_poultry_model'
@@ -36,14 +35,14 @@ def main():
 
     #Set seed
     random.seed(94063)
-    # ==============================================================================
+    # ==========================================================================
     #1. Plot curves
-    # ==============================================================================
+    # ==========================================================================
 
     print("Creating AUC plots...")
 
     #Set up plot dimensions
-    fig, axarr = plt.subplots(nrows=2, ncols=2) 
+    fig, axarr = plt.subplots(nrows=2, ncols=2)
     fig.set_size_inches(7,5)
     lw = 2
     fig.tight_layout()
@@ -60,42 +59,45 @@ def main():
 
     #Calculate AUC
     for i in range(len(model_names)):
-        
-        for j in range(len(cafo_proportions)):
-            
-            #Description of image sample    
-            this_desc = proportion_desc[j]
-                
-            #Select data for curve
-            roc_data =  accuracy_df.loc[((accuracy_df.model_version==model_versions[i]) &
-                                              ((accuracy_df.cafo_threshold.isin(cafo_proportions[j])) | 
-                                               (accuracy_df.image_class_cat=='notcafo'))
-                                             ),]
-            
-            #ROC curve
-            fpr, tpr, thresholds = skmetrics.roc_curve(roc_data[['image_class_binary']], 
-                                  roc_data[['score']])
 
-            #Plot curves        
-            axarr[i][0].plot(fpr, tpr, linestyle = linestyles[j], label = "%s"%(this_desc),
+        for j in range(len(cafo_proportions)):
+
+            #Description of image sample
+            this_desc = proportion_desc[j]
+
+            #Select data for curve
+            roc_data =  accuracy_df.loc[(
+            (accuracy_df.model_version==model_versions[i]) &
+            ((accuracy_df.cafo_threshold.isin(cafo_proportions[j])) |
+            (accuracy_df.image_class_cat=='notcafo'))),]
+
+            #ROC curve
+            fpr, tpr, thresholds = skmetrics.roc_curve(
+            roc_data[['image_class_binary']], roc_data[['score']])
+
+            #Plot curves
+            axarr[i][0].plot(fpr, tpr, linestyle = linestyles[j],
+            label = "%s"%(this_desc),
                          color = line_colors[j])
-            axarr[i][0].legend(loc="lower right", title = "Test Sample").get_frame().set_linewidth(0.0)
-            axarr[i][0].plot([0,1], [0,1], clip_on=True, scalex=False, scaley=False,
-                  color = '#bdbdbd')
-            
+            axarr[i][0].legend(loc="lower right",
+            title = "Test Sample").get_frame().set_linewidth(0.0)
+            axarr[i][0].plot([0,1], [0,1], clip_on=True, scalex=False,
+            scaley=False, color = '#bdbdbd')
+
             #PR curve
-            precision,recall,thresholds = skmetrics.precision_recall_curve(roc_data[['image_class_binary']], 
-                              roc_data[['score']])
+            precision,recall,thresholds = skmetrics.precision_recall_curve(
+            roc_data[['image_class_binary']], roc_data[['score']])
 
             #Plot curve
-            axarr[i][1].plot(recall, precision, linestyle = linestyles[j], label = "%s"%(this_desc),
-                         color = line_colors[j])
+            axarr[i][1].plot(recall, precision, linestyle = linestyles[j],
+            label = "%s"%(this_desc), color = line_colors[j])
 
             #Junk classifier comparison
             random_scores = [random.random() for _ in range(len(roc_data))]
-            rand_precision,rand_recall,thresholds = skmetrics.precision_recall_curve(roc_data[['image_class_binary']], 
-                              random_scores)
-            axarr[i][1].plot(rand_recall, rand_precision, color = '#bdbdbd', linestyle = linestyles[j])
+            rand_precision,rand_recall,thresholds = skmetrics.precision_recall_curve(
+            roc_data[['image_class_binary']], random_scores)
+            axarr[i][1].plot(rand_recall, rand_precision,
+            color = '#bdbdbd', linestyle = linestyles[j])
 
     #Change axis and set titles
     axarr[0][0].set_title('ROC Curve')
@@ -115,10 +117,11 @@ def main():
     plt.figtext(0.56, 0.44, 'd', fontweight = 'bold')
 
     #Save figure
-    fig.savefig(os.path.join(fig_dir, '2_Figure_fgroc_ROC_PR_Curves.pdf'), bbox_inches='tight')
+    fig.savefig(os.path.join(fig_dir, '2_Figure_fgroc_ROC_PR_Curves.pdf'),
+    bbox_inches='tight')
 
     print("Done.")
-    
+
 #Add arguments
 if __name__ == '__main__':
-    main() 
+    main()
